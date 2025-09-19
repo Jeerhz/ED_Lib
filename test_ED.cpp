@@ -7,9 +7,9 @@ using namespace cv;
 using namespace std;
 using namespace cv::ximgproc;
 
-int main(int argc, char** argv)
+int main(int argc, char **argv)
 {
-    char* filename;
+    const char *filename;
     if (argc > 1)
         filename = argv[1];
     else
@@ -35,9 +35,9 @@ int main(int argc, char** argv)
         ed->params.AnchorThresholdValue = 8;
         ed->params.Sigma = 1.0;
 
-        //Detection of edge segments from an input image    
+        // Detection of edge segments from an input image
         tm.start();
-        //Call ED constructor
+        // Call ED constructor
         ED testED = ED(testImg, SOBEL_OPERATOR, 36, 8, 1, 10, 1.0, true);
         tm.stop();
         std::cout << "testED.getEdgeImage()  (Original)  : " << tm.getTimeMilli() << " ms." << endl;
@@ -62,15 +62,15 @@ int main(int argc, char** argv)
         imwrite("EdgeImage.png", edgeImg1);
 
         //***************************** EDLINES Line Segment Detection *****************************
-        //Detection of lines segments from edge segments instead of input image
-        //Therefore, redundant detection of edge segmens can be avoided
+        // Detection of lines segments from edge segments instead of input image
+        // Therefore, redundant detection of edge segmens can be avoided
         tm.reset();
         tm.start();
         EDLines testEDLines = EDLines(testED);
         tm.stop();
         cout << "-------------------------------------------------\n";
         cout << "testEDLines.getLineImage()         : " << tm.getTimeMilli() << " ms." << endl;
-        Mat lineImg0 = testEDLines.getLineImage();    //draws on an empty image
+        Mat lineImg0 = testEDLines.getLineImage(); // draws on an empty image
 
         tm.reset();
         tm.start();
@@ -88,7 +88,7 @@ int main(int argc, char** argv)
         imwrite("LinesImage.png", lineImg1);
 
         //***************************** EDCIRCLES Circle Segment Detection *****************************
-        //Detection of circles from already available EDPF or ED image
+        // Detection of circles from already available EDPF or ED image
         tm.reset();
         tm.start();
         EDCircles testEDCircles = EDCircles(testEDLines);
@@ -108,7 +108,7 @@ int main(int argc, char** argv)
 
         cvtColor(testImg, ellipsImg0, COLOR_GRAY2BGR);
         cvtColor(testImg, ellipsImg1, COLOR_GRAY2BGR);
- 
+
         for (int i = 0; i < found_circles.size(); i++)
         {
             Point center((int)found_circles[i].center.x, (int)found_circles[i].center.y);
